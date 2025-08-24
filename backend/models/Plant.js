@@ -32,6 +32,11 @@ const plantSchema = new mongoose.Schema({
     type: String,
     default: 'https://images.pexels.com/photos/1084199/pexels-photo-1084199.jpeg?auto=compress&cs=tinysrgb&w=400'
   },
+  light: {
+    type: String,
+    enum: ['Low', 'Medium', 'High'],
+    default: 'Medium'
+  }
   
 }, {
   timestamps: true

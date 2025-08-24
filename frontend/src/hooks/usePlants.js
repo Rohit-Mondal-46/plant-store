@@ -18,7 +18,13 @@ export const usePlants = () => {
         queryParams.append('search', searchParams.search);
       }
       if (searchParams.category) {
-        queryParams.append('category', searchParams.category);
+        if (Array.isArray(searchParams.category)) {
+          // Send as comma-separated string for multiple categories
+          queryParams.append('category', searchParams.category.join(','));
+        } else {
+          // Handle single category (backward compatibility)
+          queryParams.append('category', searchParams.category);
+        }
       }
       if (searchParams.inStock !== undefined) {
         queryParams.append('inStock', searchParams.inStock);

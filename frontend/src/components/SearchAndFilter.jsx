@@ -4,7 +4,11 @@ import { useCategories } from '../hooks/usePlants';
 
 export const SearchAndFilter = ({ onSearch, onFilter, currentFilters }) => {
   const [searchTerm, setSearchTerm] = useState(currentFilters.search || '');
-  const [selectedCategory, setSelectedCategory] = useState(currentFilters.category || '');
+  const [selectedCategories, setSelectedCategories] = useState(
+    currentFilters.category ? 
+      (Array.isArray(currentFilters.category) ? currentFilters.category : [currentFilters.category]) 
+      : []
+  );
   const [stockFilter, setStockFilter] = useState(currentFilters.inStock);
   const [showFilters, setShowFilters] = useState(false);
   
@@ -19,24 +23,39 @@ export const SearchAndFilter = ({ onSearch, onFilter, currentFilters }) => {
   }, [searchTerm, onSearch]);
 
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    onFilter({ category: category || undefined, inStock: stockFilter });
+    let newSelectedCategories;
+    if (selectedCategories.includes(category)) {
+      // Remove category if already selected
+      newSelectedCategories = selectedCategories.filter(cat => cat !== category);
+    } else {
+      // Add category if not selected
+      newSelectedCategories = [...selectedCategories, category];
+    }
+    
+    setSelectedCategories(newSelectedCategories);
+    onFilter({ 
+      category: newSelectedCategories.length > 0 ? newSelectedCategories : undefined, 
+      inStock: stockFilter 
+    });
   };
 
   const handleStockFilterChange = (inStock) => {
     setStockFilter(inStock);
-    onFilter({ category: selectedCategory || undefined, inStock });
+    onFilter({ 
+      category: selectedCategories.length > 0 ? selectedCategories : undefined, 
+      inStock 
+    });
   };
 
   const clearFilters = () => {
     setSearchTerm('');
-    setSelectedCategory('');
+    setSelectedCategories([]);
     setStockFilter(undefined);
     onSearch('');
     onFilter({});
   };
 
-  const hasActiveFilters = searchTerm || selectedCategory || stockFilter !== undefined;
+  const hasActiveFilters = searchTerm || selectedCategories.length > 0 || stockFilter !== undefined;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
@@ -69,7 +88,7 @@ export const SearchAndFilter = ({ onSearch, onFilter, currentFilters }) => {
             Filters
             {hasActiveFilters && (
               <span className="bg-emerald-500 text-white text-xs rounded-full px-2 py-0.5">
-                {[searchTerm, selectedCategory, stockFilter !== undefined].filter(Boolean).length}
+                {[searchTerm, selectedCategories.length > 0, stockFilter !== undefined].filter(Boolean).length}
               </span>
             )}
           </button>
@@ -93,20 +112,28 @@ export const SearchAndFilter = ({ onSearch, onFilter, currentFilters }) => {
             {/* Category Filter */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category
+                Categories {selectedCategories.length > 0 && (
+                  <span className="text-emerald-600 text-xs">({selectedCategories.length} selected)</span>
+                )}
               </label>
-              <select
-                value={selectedCategory}
-                onChange={(e) => handleCategoryChange(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
-              >
-                <option value="">All Categories</option>
+              <div className="space-y-2 max-h-40 overflow-y-auto">
                 {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category.charAt(0).toUpperCase() + category.slice(1)}
-                  </option>
+                  <label key={category} className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectedCategories.includes(category)}
+                      onChange={() => handleCategoryChange(category)}
+                      className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500 focus:ring-2"
+                    />
+                    <span className="text-sm text-gray-700">
+                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                    </span>
+                  </label>
                 ))}
-              </select>
+                {categories.length === 0 && (
+                  <p className="text-sm text-gray-500">No categories available</p>
+                )}
+              </div>
             </div>
 
             {/* Stock Filter */}

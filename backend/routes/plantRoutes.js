@@ -32,9 +32,19 @@ router.get('/', async (req, res) => {
       ];
     }
     
-    // Category filter
+    // Category filter - support multiple categories
     if (category) {
-      query.categories = { $in: [category.toLowerCase()] };
+      let categories;
+      if (Array.isArray(category)) {
+        categories = category.map(cat => cat.toLowerCase());
+      } else if (typeof category === 'string') {
+        // Handle comma-separated string or single category
+        categories = category.split(',').map(cat => cat.trim().toLowerCase()).filter(cat => cat);
+      }
+      
+      if (categories && categories.length > 0) {
+        query.categories = { $in: categories };
+      }
     }
     
     // Stock filter
@@ -82,7 +92,7 @@ router.get('/:id', async (req, res) => {
 // POST new plant (Admin)
 router.post('/', async (req, res) => {
   try {
-    const { name, price, categories, quantity, description, image, difficulty, light } = req.body;
+    const { name, price, categories, quantity, description, image, light } = req.body;
     
     if (!isMongoAvailable()) {
       return res.status(503).json({ 
@@ -120,7 +130,6 @@ router.post('/', async (req, res) => {
       quantity: quantity !== undefined ? parseInt(quantity) : 0,
       description: description?.trim() || '',
       image: image || 'https://images.pexels.com/photos/1084199/pexels-photo-1084199.jpeg?auto=compress&cs=tinysrgb&w=400',
-      difficulty: difficulty || 'Easy',
       light: light || 'Medium'
     };
     
@@ -134,7 +143,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// POST purchase plant (decrease quantity)
+// POST purchase plant
 router.post('/:id/purchase', async (req, res) => {
   try {
     const { id } = req.params;

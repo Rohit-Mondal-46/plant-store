@@ -77,10 +77,9 @@ This will start both the React frontend (http://localhost:5173) and Express back
   name: String,           // Required, max 100 characters
   price: Number,          // Required, positive number
   categories: [String],   // Required, array of lowercase categories
-  inStock: Boolean,       // Default true
+  quantity: Number,       // Required, non-negative integer for stock
   description: String,    // Optional, max 500 characters
   image: String,          // Image URL
-  difficulty: String,     // Easy, Medium, Hard
   light: String          // Low, Medium, High
 }
 ```

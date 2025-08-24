@@ -128,7 +128,7 @@ export const HomePage = () => {
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">No plants found</h3>
             <p className="text-gray-600">
-              {filters.search || filters.category 
+              {filters.search || (filters.category && filters.category.length > 0)
                 ? "Try adjusting your search or filter criteria."
                 : "No plants available at the moment."}
             </p>

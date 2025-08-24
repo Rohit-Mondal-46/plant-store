@@ -9,7 +9,6 @@ export const PlantCard = ({ plant, onPurchase }) => {
     quantity,
     description,
     image,
-    difficulty,
     light
   } = plant;
 
@@ -18,19 +17,6 @@ export const PlantCard = ({ plant, onPurchase }) => {
   const handlePurchase = () => {
     if (onPurchase && isInStock) {
       onPurchase(plant._id, 1); // Purchase 1 item by default
-    }
-  };
-
-  const getDifficultyColor = (difficulty) => {
-    switch (difficulty) {
-      case 'Easy':
-        return 'text-green-600 bg-green-50 border-green-200';
-      case 'Medium':
-        return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'Hard':
-        return 'text-red-600 bg-red-50 border-red-200';
-      default:
-        return 'text-gray-600 bg-gray-50 border-gray-200';
     }
   };
 
@@ -58,11 +44,6 @@ export const PlantCard = ({ plant, onPurchase }) => {
             e.target.src = 'https://images.pexels.com/photos/1084199/pexels-photo-1084199.jpeg?auto=compress&cs=tinysrgb&w=400';
           }}
         />
-        <div className="absolute top-3 right-3">
-          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getDifficultyColor(difficulty)}`}>
-            {difficulty}
-          </span>
-        </div>
         {!isInStock && (
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
             <span className="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium">
