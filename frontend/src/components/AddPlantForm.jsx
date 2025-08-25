@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, X, Leaf } from 'lucide-react';
 
 export const AddPlantForm = ({ onAddPlant, loading, isModal = true }) => {
-  const [isOpen, setIsOpen] = useState(!isModal); // Start open if not modal mode
+  const [isOpen, setIsOpen] = useState(!isModal); 
   const [formData, setFormData] = useState({
     name: '',
     price: '',
@@ -62,7 +62,6 @@ export const AddPlantForm = ({ onAddPlant, loading, isModal = true }) => {
         quantity: parseInt(formData.quantity)
       });
       
-      // Reset form and close modal
       setFormData({
         name: '',
         price: '',
@@ -115,7 +114,6 @@ export const AddPlantForm = ({ onAddPlant, loading, isModal = true }) => {
 
   const formContent = (
     <form onSubmit={handleSubmit} className="p-6 space-y-6">
-      {/* Plant Name */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Plant Name *
@@ -132,7 +130,6 @@ export const AddPlantForm = ({ onAddPlant, loading, isModal = true }) => {
         {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
       </div>
 
-      {/* Price */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Price ($) *
@@ -151,7 +148,6 @@ export const AddPlantForm = ({ onAddPlant, loading, isModal = true }) => {
         {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price}</p>}
       </div>
 
-      {/* Quantity */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Quantity in Stock *
@@ -169,7 +165,6 @@ export const AddPlantForm = ({ onAddPlant, loading, isModal = true }) => {
         {errors.quantity && <p className="mt-1 text-sm text-red-600">{errors.quantity}</p>}
       </div>
 
-      {/* Categories */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Categories *
@@ -204,7 +199,6 @@ export const AddPlantForm = ({ onAddPlant, loading, isModal = true }) => {
         {errors.categories && <p className="mt-1 text-sm text-red-600">{errors.categories}</p>}
       </div>
 
-      {/* Description */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Description
@@ -225,7 +219,6 @@ export const AddPlantForm = ({ onAddPlant, loading, isModal = true }) => {
         </div>
       </div>
 
-      {/* Image URL */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Image URL
@@ -239,7 +232,6 @@ export const AddPlantForm = ({ onAddPlant, loading, isModal = true }) => {
         />
       </div>
 
-      {/* Light Requirements */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Sun Light Requirement
@@ -255,7 +247,6 @@ export const AddPlantForm = ({ onAddPlant, loading, isModal = true }) => {
         </select>
       </div>
 
-      {/* Form Actions */}
       <div className="flex gap-3 pt-4 border-t border-gray-200">
         {isModal && (
           <button

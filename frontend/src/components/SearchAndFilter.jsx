@@ -25,10 +25,8 @@ export const SearchAndFilter = ({ onSearch, onFilter, currentFilters }) => {
   const handleCategoryChange = (category) => {
     let newSelectedCategories;
     if (selectedCategories.includes(category)) {
-      // Remove category if already selected
       newSelectedCategories = selectedCategories.filter(cat => cat !== category);
     } else {
-      // Add category if not selected
       newSelectedCategories = [...selectedCategories, category];
     }
     

@@ -16,7 +16,7 @@ export const PlantCard = ({ plant, onPurchase }) => {
 
   const handlePurchase = () => {
     if (onPurchase && isInStock) {
-      onPurchase(plant._id, 1); // Purchase 1 item by default
+      onPurchase(plant._id, 1); 
     }
   };
 

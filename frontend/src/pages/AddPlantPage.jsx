@@ -12,11 +12,9 @@ export const AddPlantPage = () => {
   const handleAddPlant = async (plantData) => {
     try {
       await addPlant(plantData);
-      // Navigate back to home with success message
       navigate('/', { state: { message: 'Plant added successfully!' } });
     } catch (error) {
       console.error('Failed to add plant:', error);
-      // Error handling is done in the AddPlantForm component
       throw error;
     }
   };

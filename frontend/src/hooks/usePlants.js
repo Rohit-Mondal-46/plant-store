@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ||'http://localhost:5000/api';
 
 export const usePlants = () => {
   const [plants, setPlants] = useState([]);
@@ -19,10 +19,9 @@ export const usePlants = () => {
       }
       if (searchParams.category) {
         if (Array.isArray(searchParams.category)) {
-          // Send as comma-separated string for multiple categories
           queryParams.append('category', searchParams.category.join(','));
         } else {
-          // Handle single category (backward compatibility)
+          // Handle single category 
           queryParams.append('category', searchParams.category);
         }
       }
